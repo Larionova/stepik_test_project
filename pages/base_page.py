@@ -12,6 +12,7 @@ class BasePage():
             self.browser.find_element(how, what)
         except NoSuchElementException:
             return False
+        return True
 
     def open(self):
         self.browser.get(self.url)
