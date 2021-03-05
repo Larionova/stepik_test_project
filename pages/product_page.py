@@ -1,8 +1,14 @@
 from .base_page import BasePage
 from .locators import ProductPageLocators
 
+
 class ProductPage(BasePage):
-    def add_product_in_basket(self):
+    def product_in_basket(self):
+        self.should_be_book_name()
+        self.should_be_book_price()
+        self.should_be_message()
+
+    def click_on_button_add_in_basket(self):
         assert self.is_element_present(*ProductPageLocators.ADD_BUTTON), 'Button is not presented'
         button = self.browser.find_element(*ProductPageLocators.ADD_BUTTON)
         button.click()
@@ -16,4 +22,6 @@ class ProductPage(BasePage):
         price_book = self.browser.find_element(*ProductPageLocators.BOOK_PRICE).text
         price_backet = self.browser.find_element(*ProductPageLocators.BOOK_PRICE_BASKET).text
         assert price_book == price_backet, "Price book is different"
+
     def should_be_message(self):
+        assert self.is_element_present(*ProductPageLocators.SUCCESS_MESSAGE), 'Message is not presented'
