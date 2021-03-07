@@ -6,8 +6,6 @@ class ProductPage(BasePage):
     def product_in_basket(self):
         self.should_be_book_name()
         self.should_be_book_price()
-        self.should_not_be_success_message()
-        self.should_be_disappear()
 
     def click_on_button_add_in_basket(self):
         assert self.is_element_present(*ProductPageLocators.ADD_BUTTON), 'Button is not presented'
