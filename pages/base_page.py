@@ -1,4 +1,6 @@
 import math
+import random
+import string
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -7,7 +9,7 @@ from selenium.common.exceptions import NoAlertPresentException
 from .locators import BasePageLocators
 
 
-class BasePage():
+class BasePage:
     def __init__(self, browser, url):
         self.browser = browser
         self.url = url
@@ -65,6 +67,16 @@ class BasePage():
 
     def open(self):
         self.browser.get(self.url)
+
+    @staticmethod
+    def registration_email():
+        rand_email = "bossmytest+" + str(random.randint(100, 9000000)) + "@gmail.com"
+        return rand_email
+
+    @staticmethod
+    def registration_password():
+        password = "".join(random.choice(string.ascii_letters) for i in range(random.randint(10, 15)))
+        return password
 
     def should_be_authorized_user(self):
         assert self.is_element_present(

@@ -4,18 +4,16 @@ import random
 from .pages.login_page import LoginPage
 from .pages.product_page import ProductPage
 from .pages.basket_page import BasketPage
+from .pages.base_page import BasePage
 
 
-class TestUserAddToBasketFromProductPage():
+class TestUserAddToBasketFromProductPage:
     @pytest.fixture(scope='function', autouse=True)
     def setup(self, browser):
         link = 'http://selenium1py.pythonanywhere.com/en-gb/accounts/login/'
         self.login_page = LoginPage(browser, link)
         self.login_page.open()
-        count = random.randint(1, 100)
-        email = str(time.time()) + '@fakemail.org'
-        password = str(time.time() + count)
-        self.login_page.register_new_user(email, password)
+        self.login_page.register_new_user(BasePage.registration_email(), BasePage.registration_password())
         self.login_page.should_be_authorized_user()
 
     @pytest.mark.need_review
@@ -33,12 +31,11 @@ class TestUserAddToBasketFromProductPage():
         self.product_page.should_not_be_success_message()
 
 
-@pytest.mark.parametrize('promo', ['?promo=offer0', '?promo=offer1', '?promo=offer2', '?promo=offer3', '?promo=offer4',
-                                   '?promo=offer5', '?promo=offer6', '?promo=offer7', '?promo=offer8', '?promo=offer9'])
-@pytest.mark.xfail(reason='wrong message')
 @pytest.mark.need_review
+@pytest.mark.parametrize('promo', [pytest.param(i, marks=pytest.mark.xfail(i == 7, reason='Bug in the page'))
+                                   for i in range(10)])
 def test_guest_can_add_product_to_basket(browser, promo):
-    link = f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/{promo}'
+    link = f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{promo}'
     product_page = ProductPage(browser, link)
     product_page.open()
     product_page.click_on_button_add_in_basket()
