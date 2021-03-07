@@ -40,9 +40,6 @@ class BasePage():
     def go_to_login_page(self):
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
-        # если разработчики добавили alert, который вызывается при клике на нужную нам ссылку
-        # alert = self.browser.switch_to.alert
-        # alert.accept()
 
     def go_to_basket(self):
         link = self.browser.find_element(*BasePageLocators.BASKET_BUTTON)
